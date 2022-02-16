@@ -4,13 +4,17 @@ import "fmt"
 
 func main() {
 
-	func(texto string) {
-		fmt.Println(texto)
-	}("Olá mundo")
+	func(text string) {
+		fmt.Println(text)
+	}("Hello World!")
 
-	retorno := func(texto string) string {
-		return fmt.Sprintf("Recebido -> %s", texto)
-	}("Passando parâmetro")
-	fmt.Println(retorno)
+	func() {
+		fmt.Println("anonymous function without parameter...")
+	}()
 
+	result := func(text string) string {
+		return fmt.Sprintf("Param => %s\n", text)
+	}
+
+	fmt.Println(result("param value"))
 }

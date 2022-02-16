@@ -1,15 +1,36 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 func main() {
-	fmt.Println("MAPS")
+	usuario1 := map[string]string{
+		"nome":      "Pedro",
+		"sobrenome": "Silva",
+	}
+	fmt.Println(usuario1)
+	fmt.Println(usuario1["nome"])
+	fmt.Println(usuario1["sobrenome"])
 
-	m := map[string]interface{}{"k1": "v1", "k2": "v2"}
+	delete(usuario1, "sobrenome")
+	fmt.Println(usuario1)
+	fmt.Println(usuario1["nome"])
+	fmt.Println(usuario1["sobrenome"])
 
-	m["k3"] = "v3"
+	usuario2 := map[string]map[string]string{
+		"nomes": {
+			"primeiro": "João",
+			"último":   "Pedro",
+		},
+	}
+	fmt.Println(usuario2)
+	fmt.Println(usuario2["nomes"])
+	fmt.Println(usuario2["nomes"]["primeiro"])
 
-	fmt.Println(m)
+	usuario2["cursos"] = map[string]string{
+		"nome":   "Medicina",
+		"campus": "Centro",
+	}
+	fmt.Println(usuario2)
+	fmt.Println(usuario2["nomes"])
+	fmt.Println(usuario2["nomes"]["primeiro"])
 }

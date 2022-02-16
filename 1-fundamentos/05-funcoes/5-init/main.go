@@ -5,7 +5,7 @@ import "fmt"
 var n int
 
 func init() {
-	fmt.Println("Executando a função init")
+	fmt.Println("Starting when loading package")
 	n = 10
 }
 

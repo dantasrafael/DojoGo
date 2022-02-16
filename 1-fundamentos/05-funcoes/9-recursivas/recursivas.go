@@ -23,5 +23,4 @@ func main() {
 	for i := uint(1); i < posicao; i++ {
 		fmt.Printf("%d ", fibonacci(i))
 	}
-
 }

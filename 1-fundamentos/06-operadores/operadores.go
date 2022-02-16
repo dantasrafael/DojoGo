@@ -48,6 +48,8 @@ func main() {
 
 	numero++
 	fmt.Println(numero)
+	//fmt.Println(++numero) // não é possível em go
+	//fmt.Println(numero++) // não é possível em go
 
 	numero--
 	fmt.Println(numero)

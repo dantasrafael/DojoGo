@@ -15,7 +15,6 @@ func escrever(texto string, numeros ...int) {
 	for _, numero := range numeros {
 		fmt.Println(texto, numero)
 	}
-
 }
 
 func main() {

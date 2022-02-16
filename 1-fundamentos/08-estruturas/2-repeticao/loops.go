@@ -26,6 +26,9 @@ func main() {
 	for indice := range nomes {
 		fmt.Println(indice)
 	}
+	for idx, nome := range nomes {
+		fmt.Println(idx, nome)
+	}
 	for _, nome := range nomes {
 		fmt.Println(nome)
 	}

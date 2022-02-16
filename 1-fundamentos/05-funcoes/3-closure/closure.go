@@ -3,17 +3,26 @@ package main
 import "fmt"
 
 func closure() func() {
-	texto := "Dentro da função Closure"
+	text := "Value inside closure function"
 
 	return func() {
-		fmt.Println(texto)
+		fmt.Println(text)
+	}
+}
+
+func closureNeverCalled() func() {
+	fmt.Println("execution inside closure called")
+
+	return func() {
+		fmt.Println("closure never called")
 	}
 }
 
 func main() {
-	texto := "Dentro da função Main"
-	fmt.Println(texto)
+	text := "Value from main"
+	fmt.Println(text)
 
-	funcaoNova := closure()
-	funcaoNova()
+	_ = closureNeverCalled()
+	returnedFunction := closure()
+	returnedFunction()
 }

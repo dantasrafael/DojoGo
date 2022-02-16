@@ -20,6 +20,7 @@ func alunoEstaAprovado(n1, n2 float32) bool {
 		return false
 	}
 
+	//return false
 	panic("A MÉDIA É EXATAMENTE 6!")
 }
 
