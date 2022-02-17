@@ -10,8 +10,8 @@ func main() {
 		rw.Write([]byte("Página Raiz!"))
 	})
 
-	http.HandleFunc("/users", func(rw http.ResponseWriter, r *http.Request) {
-		rw.Write([]byte("Página usuários!"))
+	http.HandleFunc("/nutela", func(rw http.ResponseWriter, r *http.Request) {
+		rw.Write([]byte("Página nutela!"))
 	})
 
 	log.Fatal(http.ListenAndServe(":5000", nil))

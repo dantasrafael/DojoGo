@@ -16,6 +16,7 @@ func main() {
 	var (
 		variavel3 string = "Variável 3"
 		variavel4 int    = 4
+		variavel8        = 4
 	)
 
 	variavel5 := "Variável 5"
@@ -25,6 +26,7 @@ func main() {
 	fmt.Println(variavel2)
 	fmt.Println(variavel3)
 	fmt.Println(variavel4)
+	fmt.Printf("%T - %d\n", variavel8, variavel8)
 	fmt.Println(variavel5)
 	fmt.Println(variavel6)
 	fmt.Println(variavel7)
