@@ -1,7 +1,7 @@
 package server
 
 import (
-	"crud-basico/db"
+	"crud-sql-nativo/db"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"

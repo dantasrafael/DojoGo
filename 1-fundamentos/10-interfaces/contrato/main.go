@@ -31,8 +31,8 @@ func (c circulo) area() float64 {
 }
 
 func main() {
-	r := retangulo{10, 15}
-	c := circulo{10}
-	escreverArea(r)
-	escreverArea(c)
+	var ret forma = retangulo{10, 15}
+	circ := circulo{10}
+	escreverArea(ret)
+	escreverArea(circ)
 }

@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"crud-basico/server"
+	"crud-sql-nativo/server"
 
 	"github.com/gorilla/mux"
 )

@@ -1,4 +1,4 @@
-module crud-basico
+module crud-sql-nativo
 
 go 1.17
 
