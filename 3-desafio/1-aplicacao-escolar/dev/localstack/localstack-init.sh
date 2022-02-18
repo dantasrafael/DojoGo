@@ -6,6 +6,18 @@ awslocal sns subscribe --topic-arn arn:aws:sns:us-east-1:000000000000:SCHOOL_ENR
          --protocol sqs \
          --notification-endpoint arn:aws:sqs:us-east-1:queue:SCHOOL_ENROLLMENT_FINANCIAL
 
+awslocal sns create-topic --name SCHOOL_COURSE
+awslocal sqs create-queue --queue-name SCHOOL_COURSE_FINANCIAL
+awslocal sns subscribe --topic-arn arn:aws:sns:us-east-1:000000000000:SCHOOL_COURSE \
+         --protocol sqs \
+         --notification-endpoint arn:aws:sqs:us-east-1:queue:SCHOOL_COURSE_FINANCIAL
+
+awslocal sns create-topic --name SCHOOL_STUDENT
+awslocal sqs create-queue --queue-name SCHOOL_STUDENT_FINANCIAL
+awslocal sns subscribe --topic-arn arn:aws:sns:us-east-1:000000000000:SCHOOL_STUDENT \
+         --protocol sqs \
+         --notification-endpoint arn:aws:sqs:us-east-1:queue:SCHOOL_STUDENT_FINANCIAL                  
+
 awslocal sns create-topic --name FINANCIAL_INSTALLMENT
 awslocal sqs create-queue --queue-name FINANCIAL_INSTALLMENT_SCHOOL
 awslocal sns subscribe --topic-arn arn:aws:sns:us-east-1:000000000000:FINANCIAL_INSTALLMENT \
