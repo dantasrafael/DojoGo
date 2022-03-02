@@ -13,7 +13,7 @@ services:
       - HOST_TMP_FOLDER=${TMPDIR:-/tmp/}localstack
       - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:
-      - "${PWD}/localstack/init.sh:/docker-entrypoint-initaws.d/init.sh"
+      - "${PWD}/localstack/localstack-init.sh:/docker-entrypoint-initaws.d/init.sh"
       - "${TMPDIR:-/tmp}/localstack:/tmp/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
