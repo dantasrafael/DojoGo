@@ -1,7 +1,6 @@
 package producers
 
 import (
-	"modulo-escolar/src/core/utils"
 	"modulo-escolar/src/domain/entities"
 
 	"github.com/aws/aws-sdk-go/service/sns"
@@ -14,9 +13,9 @@ const (
 )
 
 func DeleteStudentProducer(model *entities.Student) {
-	message := utils.ProviderMessage{Action: ACTION_DELETE_STUDENT, Message: *model}
+	message := messaging.ProviderMessage{Action: ACTION_DELETE_STUDENT, Message: *model}
 	sess := messaging.CreateLocalstackSession()
 	svc := sns.New(sess)
 
-	messaging.PublishMessage(svc, TOPIC_DELETE_STUDENT, message.GetJsonMessage())
+	messaging.PublishMessage(svc, TOPIC_DELETE_STUDENT, message.GetJson())
 }

@@ -1,7 +1,6 @@
 package producers
 
 import (
-	"modulo-escolar/src/core/utils"
 	"modulo-escolar/src/domain/entities"
 
 	"github.com/aws/aws-sdk-go/service/sns"
@@ -14,9 +13,9 @@ const (
 )
 
 func CreateEnrollmentProducer(model *entities.Enrollment) {
-	message := utils.ProviderMessage{Action: ACTION_CREATE_ENROLLMENT, Message: *model}
+	message := messaging.ProviderMessage{Action: ACTION_CREATE_ENROLLMENT, Message: *model}
 	sess := messaging.CreateLocalstackSession()
 	svc := sns.New(sess)
 
-	messaging.PublishMessage(svc, TOPIC_CREATE_ENROLLMENT, message.GetJsonMessage())
+	messaging.PublishMessage(svc, TOPIC_CREATE_ENROLLMENT, message.GetJson())
 }

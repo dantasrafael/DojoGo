@@ -11,5 +11,5 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/invoices", controller.NewInvoiceController().Find)
 
-	log.Fatal(http.ListenAndServe(":8181", nil))
+	log.Fatal(http.ListenAndServe(":8181", router))
 }
