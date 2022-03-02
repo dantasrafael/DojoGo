@@ -1,10 +1,11 @@
 package producers
 
 import (
-	"log"
 	"modulo-escolar/src/core/utils"
 	"modulo-escolar/src/domain/entities"
-	"time"
+
+	"github.com/aws/aws-sdk-go/service/sns"
+	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/messaging"
 )
 
 const (
@@ -13,7 +14,9 @@ const (
 )
 
 func DeleteStudentProducer(model *entities.Student) {
-	message := utils.ProviderMessage{Date: time.Now(), Action: ACTION_DELETE_STUDENT, Message: *model}
+	message := utils.ProviderMessage{Action: ACTION_DELETE_STUDENT, Message: *model}
+	sess := messaging.CreateLocalstackSession()
+	svc := sns.New(sess)
 
-	log.Printf("Enviando msg para o tópico '%s': %v\n", TOPIC_DELETE_STUDENT, message.GetJsonMessage())
+	messaging.PublishMessage(svc, TOPIC_DELETE_STUDENT, message.GetJsonMessage())
 }

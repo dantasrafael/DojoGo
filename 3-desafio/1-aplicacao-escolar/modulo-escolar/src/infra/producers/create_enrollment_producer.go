@@ -1,10 +1,11 @@
 package producers
 
 import (
-	"log"
 	"modulo-escolar/src/core/utils"
 	"modulo-escolar/src/domain/entities"
-	"time"
+
+	"github.com/aws/aws-sdk-go/service/sns"
+	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/messaging"
 )
 
 const (
@@ -13,7 +14,9 @@ const (
 )
 
 func CreateEnrollmentProducer(model *entities.Enrollment) {
-	message := utils.ProviderMessage{Date: time.Now(), Action: ACTION_CREATE_ENROLLMENT, Message: *model}
+	message := utils.ProviderMessage{Action: ACTION_CREATE_ENROLLMENT, Message: *model}
+	sess := messaging.CreateLocalstackSession()
+	svc := sns.New(sess)
 
-	log.Printf("Enviando msg para o tópico '%s': %v\n", TOPIC_CREATE_ENROLLMENT, message.GetJsonMessage())
+	messaging.PublishMessage(svc, TOPIC_CREATE_ENROLLMENT, message.GetJsonMessage())
 }

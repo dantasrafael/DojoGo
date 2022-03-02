@@ -3,11 +3,9 @@ package utils
 import (
 	"encoding/json"
 	"log"
-	"time"
 )
 
 type ProviderMessage struct {
-	Date    time.Time   `json:"date"`
 	Action  string      `json:"action"`
 	Message interface{} `json:"message"`
 }
