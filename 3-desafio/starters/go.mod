@@ -1,4 +1,4 @@
-module starters
+module github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters
 
 go 1.17
 

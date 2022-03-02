@@ -3,6 +3,8 @@ package consumer
 import (
 	"encoding/json"
 	"financial/app/consumer/model"
+	"fmt"
+	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/messaging"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -13,10 +15,18 @@ import (
 
 const schoolEnrollmentQueueName = "SCHOOL_ENROLLMENT_FINANCIAL"
 
-type SchoolEnrollmentConsumer struct {
+func StartSchoolEnrollmentConsumer(sess *session.Session) {
+	ch := createConsumer(sess)
+
+	for {
+		select {
+		case msg := <-ch:
+			fmt.Println(msg)
+		}
+	}
 }
 
-func StartSchoolEnrollmentConsumer(sess *session.Session) {
+func createConsumer(sess *session.Session) chan *model.Enrollment {
 	ch := make(chan *model.Enrollment, 1)
 
 	svc := sqs.New(sess)
@@ -28,7 +38,7 @@ func StartSchoolEnrollmentConsumer(sess *session.Session) {
 
 	go func() {
 		for {
-			msgs, err := readMessages(svc, queueResult)
+			msgs, err := messaging.ReadMessages(svc, queueResult)
 			if err != nil {
 				log.Printf("could not receive message: %v\n", err)
 				continue
@@ -42,31 +52,13 @@ func StartSchoolEnrollmentConsumer(sess *session.Session) {
 					log.Printf("Could not unmarshal message body [%s]: %v\n", *msg.Body, err)
 				} else {
 					ch <- &n
-					removeMessageFromQueue(svc, queueResult, msg)
+					messaging.RemoveMessageFromQueue(svc, queueResult, msg)
 				}
 			} else {
 				log.Println("No messages in queue..")
 			}
 		}
 	}()
-}
 
-func readMessages(svc *sqs.SQS, queueResult *sqs.GetQueueUrlOutput) (*sqs.ReceiveMessageOutput, error) {
-	var msgs, err = svc.ReceiveMessage(&sqs.ReceiveMessageInput{
-		QueueUrl:              queueResult.QueueUrl,
-		MaxNumberOfMessages:   aws.Int64(1),
-		WaitTimeSeconds:       aws.Int64(1),
-		MessageAttributeNames: aws.StringSlice([]string{"All"}),
-	})
-	return msgs, err
-}
-
-func removeMessageFromQueue(svc *sqs.SQS, queueResult *sqs.GetQueueUrlOutput, msg *sqs.Message) {
-	_, err := svc.DeleteMessage(&sqs.DeleteMessageInput{
-		QueueUrl:      queueResult.QueueUrl,
-		ReceiptHandle: msg.ReceiptHandle,
-	})
-	if err != nil {
-		log.Printf("Could not delete message %s: %v", msg, err)
-	}
+	return ch
 }
