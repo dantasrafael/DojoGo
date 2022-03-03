@@ -25,7 +25,7 @@ func NewRegisterAccountProducer() RegisterAccountProducer {
 
 func (p RegisterAccountProducer) Send(_ context.Context, account *entity.Account) {
 	externalID, _ := strconv.ParseUint(account.ExternalID, 10, 64)
-	m, err := json.Marshal(model.RegisterAccountNotification{ID: externalID, Status: entity.INADIMPLENTE})
+	m, err := json.Marshal(model.RegisterAccountNotification{ID: externalID, Status: account.Status})
 	if err != nil {
 		log.Fatal(err)
 	}
