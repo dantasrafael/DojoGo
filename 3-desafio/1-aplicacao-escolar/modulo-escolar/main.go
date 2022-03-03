@@ -2,16 +2,27 @@ package main
 
 import (
 	"fmt"
-	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/config"
 	"log"
-	"modulo-escolar/src/core/router"
 	"net/http"
+
+	app_routes "modulo-escolar/src/core/routes"
+
+	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/config"
+	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/router"
+	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/router/routes"
 )
 
-func main() {
+func init() {
 	config.Load()
-	r := router.Create()
+
+	routes.AddRoutes(app_routes.CourseRoutes)
+	routes.AddRoutes(app_routes.EnrollmentRoutes)
+	routes.AddRoutes(app_routes.StudentRoutes)
+}
+
+func main() {
+	appRouter := router.Create()
 
 	log.Printf("Rodando o modulo-escolar na porta %d\n", config.BackendPort)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.BackendPort), r))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.BackendPort), appRouter))
 }
