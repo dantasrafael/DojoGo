@@ -1,6 +1,8 @@
 package producers
 
 import (
+	"encoding/json"
+	"log"
 	"modulo-escolar/src/domain/entities"
 
 	"github.com/aws/aws-sdk-go/service/sns"
@@ -13,9 +15,16 @@ const (
 )
 
 func DeleteEnrollmentProducer(model *entities.Enrollment) {
-	message := messaging.ProviderMessage{Action: ACTION_DELETE_ENROLLMENT, Message: *model}
+	modelJson, err := json.Marshal(model)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	message := messaging.ProviderMessage{Action: ACTION_DELETE_ENROLLMENT, Message: string(modelJson)}
 	sess := messaging.CreateLocalstackSession()
 	svc := sns.New(sess)
 
-	messaging.PublishMessage(svc, TOPIC_DELETE_ENROLLMENT, message.GetJson())
+	if err = messaging.PublishMessage(svc, TOPIC_DELETE_ENROLLMENT, message.GetJson()); err != nil {
+		log.Printf("could not send message topic %s: %v", TOPIC_CREATE_ENROLLMENT, err)
+	}
 }

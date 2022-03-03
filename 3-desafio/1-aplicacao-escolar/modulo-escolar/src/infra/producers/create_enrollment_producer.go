@@ -1,6 +1,7 @@
 package producers
 
 import (
+	"encoding/json"
 	"log"
 	"modulo-escolar/src/domain/entities"
 
@@ -14,12 +15,16 @@ const (
 )
 
 func CreateEnrollmentProducer(model *entities.Enrollment) {
-	message := messaging.ProviderMessage{Action: ACTION_CREATE_ENROLLMENT, Message: *model}
+	modelJson, err := json.Marshal(model)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	message := messaging.ProviderMessage{Action: ACTION_CREATE_ENROLLMENT, Message: string(modelJson)}
 	sess := messaging.CreateLocalstackSession()
 	svc := sns.New(sess)
 
-	err := messaging.PublishMessage(svc, TOPIC_CREATE_ENROLLMENT, message.GetJson())
-	if err != nil {
+	if err = messaging.PublishMessage(svc, TOPIC_CREATE_ENROLLMENT, message.GetJson()); err != nil {
 		log.Printf("could not send message topic %s: %v", TOPIC_CREATE_ENROLLMENT, err)
 	}
 }
