@@ -3,9 +3,11 @@ package routes
 import (
 	"modulo-escolar/src/application/controllers"
 	"net/http"
+
+	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/router/routes"
 )
 
-var courseRoutes = []Route{
+var CourseRoutes = []routes.Route{
 	{
 		URI:      "/courses",
 		Method:   http.MethodPost,
