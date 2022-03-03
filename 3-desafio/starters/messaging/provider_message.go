@@ -6,11 +6,11 @@ import (
 )
 
 type ProviderMessage struct {
-	Action  string      `json:"action"`
-	Message interface{} `json:"message"`
+	Action  string `json:"action"`
+	Message string `json:"message"`
 }
 
-func NewProviderMessage(action string, message interface{}) *ProviderMessage {
+func NewProviderMessage(action string, message string) *ProviderMessage {
 	return &ProviderMessage{Action: action, Message: message}
 }
 

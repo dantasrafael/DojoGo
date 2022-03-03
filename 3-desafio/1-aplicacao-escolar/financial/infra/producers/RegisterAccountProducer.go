@@ -2,6 +2,7 @@ package producers
 
 import (
 	"context"
+	"encoding/json"
 	"financial/domain/entity"
 	"github.com/aws/aws-sdk-go/service/sns"
 	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/messaging"
@@ -22,7 +23,12 @@ func NewRegisterAccountProducer() RegisterAccountProducer {
 
 func (p RegisterAccountProducer) Send(ctx context.Context, account *entity.Account) {
 
-	message := messaging.ProviderMessage{Action: actionRegisterAccount, Message: *account}
+	message, err := json.Marshal(account)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	message := messaging.ProviderMessage{Action: actionRegisterAccount, Message: string(message)}
 	sess := messaging.CreateLocalstackSession()
 	svc := sns.New(sess)
 

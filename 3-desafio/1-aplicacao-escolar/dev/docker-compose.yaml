@@ -8,7 +8,7 @@ services:
       - "127.0.0.1:4566:4566"            # LocalStack Edge Proxy
     environment:
       - SERVICES=sns,sqs
-      - DEBUG=${DEBUG-true}
+#      - DEBUG=${DEBUG-true}
       - DATA_DIR=${DATA_DIR-}
       - HOST_TMP_FOLDER=${TMPDIR:-/tmp/}localstack
       - DOCKER_HOST=unix:///var/run/docker.sock

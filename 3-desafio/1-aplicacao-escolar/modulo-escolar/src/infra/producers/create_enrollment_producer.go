@@ -1,6 +1,7 @@
 package producers
 
 import (
+	"log"
 	"modulo-escolar/src/domain/entities"
 
 	"github.com/aws/aws-sdk-go/service/sns"
@@ -17,5 +18,8 @@ func CreateEnrollmentProducer(model *entities.Enrollment) {
 	sess := messaging.CreateLocalstackSession()
 	svc := sns.New(sess)
 
-	messaging.PublishMessage(svc, TOPIC_CREATE_ENROLLMENT, message.GetJson())
+	err := messaging.PublishMessage(svc, TOPIC_CREATE_ENROLLMENT, message.GetJson())
+	if err != nil {
+		log.Printf("could not send message topic %s: %v", TOPIC_CREATE_ENROLLMENT, err)
+	}
 }
