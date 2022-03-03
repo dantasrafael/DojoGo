@@ -7,7 +7,7 @@ import (
 
 type Invoice struct {
 	ID          uuid.UUID
-	Account     Account
+	Account     *Account
 	Installment uint8
 	CreatedAt   time.Time
 	PaidAt      time.Time

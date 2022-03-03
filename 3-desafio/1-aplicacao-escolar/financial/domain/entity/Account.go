@@ -11,5 +11,6 @@ type Account struct {
 	CourseID     string
 	Installments uint8
 	Total        float32
+	Status       string // ADIMPLENTE, INADIMPLENTE
 	CreatedAt    time.Time
 }

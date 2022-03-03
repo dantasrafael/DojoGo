@@ -6,6 +6,7 @@ import (
 	"financial/domain/entity"
 	"financial/domain/repository"
 	"fmt"
+	uuid "github.com/satori/go.uuid"
 )
 
 const (
@@ -31,12 +32,16 @@ func (p PostgresAccountRepository) FindByClientIdAndCourseId(ctx context.Context
 	return &account, nil
 }
 
-func (p PostgresAccountRepository) Save(ctx context.Context, account *entity.Account) (string, error) {
-	var id string
+func (p PostgresAccountRepository) Save(ctx context.Context, account *entity.Account) (*uuid.UUID, error) {
+	var idStr string
 	err := p.db.QueryRowContext(ctx, insertAccount, account.ClientID, account.CourseID, account.Installments, account.Total).
-		Scan(&id)
+		Scan(&idStr)
 	if err != nil {
-		return "", fmt.Errorf("could not save account with client[%s] and course[%s]: %v", account.ClientID, account.CourseID, err)
+		return nil, fmt.Errorf("could not save account with client[%s] and course[%s]: %v", account.ClientID, account.CourseID, err)
 	}
-	return id, nil
+	if id, err := uuid.FromString(idStr); err != nil {
+		return nil, fmt.Errorf("could not parse id[%s] to uuid: %v", idStr, err)
+	} else {
+		return &id, nil
+	}
 }

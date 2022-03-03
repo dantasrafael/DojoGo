@@ -2,6 +2,7 @@ package consumer
 
 import (
 	"context"
+	"database/sql"
 	"financial/app/consumer/model"
 	"financial/domain/entity"
 	"financial/domain/usecase"
@@ -13,9 +14,9 @@ import (
 
 const schoolEnrollmentQueueName = "SCHOOL_ENROLLMENT_FINANCIAL"
 
-func StartSchoolEnrollmentConsumer(sess *session.Session) {
+func StartSchoolEnrollmentConsumer(sess *session.Session, db *sql.DB) {
 	ch := messaging.CreateConsumer(sess, schoolEnrollmentQueueName)
-	uc := usecase.NewRegisterAccount()
+	uc := usecase.NewRegisterAccount(db)
 
 	for {
 		select {

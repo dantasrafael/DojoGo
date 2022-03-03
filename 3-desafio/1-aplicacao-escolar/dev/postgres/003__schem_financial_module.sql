@@ -7,6 +7,7 @@ CREATE TABLE account
     course_id    varchar   NOT NULL,
     installments INT2      NOT NULL,
     total        decimal   NOT NULL,
+    status       varchar   not null,
     created_at   TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
