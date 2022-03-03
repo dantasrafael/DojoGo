@@ -1,14 +1,15 @@
 package consumer
 
 import (
+	"context"
 	"encoding/json"
 	"financial/app/consumer/model"
-	"fmt"
-	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/messaging"
-
+	"financial/domain/entity"
+	"financial/domain/usecase"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sqs"
+	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/messaging"
 	"log"
 	"os"
 )
@@ -17,17 +18,31 @@ const schoolEnrollmentQueueName = "SCHOOL_ENROLLMENT_FINANCIAL"
 
 func StartSchoolEnrollmentConsumer(sess *session.Session) {
 	ch := createConsumer(sess)
+	uc := usecase.NewRegisterAccount()
 
 	for {
 		select {
 		case msg := <-ch:
-			fmt.Println(msg)
+			enrollment, ok := msg.Message.(*model.Enrollment)
+			if !ok {
+				log.Printf("ERROR: could not parse message: \n%v", msg)
+			}
+			account := &entity.Account{
+				ClientID:     enrollment.StudentID,
+				CourseID:     enrollment.CourseID,
+				Installments: enrollment.Installments,
+				Total:        enrollment.Total,
+			}
+			err := uc.Execute(context.Background(), account)
+			if err != nil {
+				log.Printf("ERROR: could not consume message: \n%v: \n%v", msg, err)
+			}
 		}
 	}
 }
 
-func createConsumer(sess *session.Session) chan *model.Enrollment {
-	ch := make(chan *model.Enrollment, 1)
+func createConsumer(sess *session.Session) chan *messaging.ProviderMessage {
+	ch := make(chan *messaging.ProviderMessage, 1)
 
 	svc := sqs.New(sess)
 	queueResult, err := svc.GetQueueUrl(&sqs.GetQueueUrlInput{QueueName: aws.String(schoolEnrollmentQueueName)})
@@ -45,7 +60,7 @@ func createConsumer(sess *session.Session) chan *model.Enrollment {
 			}
 			if len(msgs.Messages) > 0 {
 				msg := msgs.Messages[0]
-				var n model.Enrollment
+				var n messaging.ProviderMessage
 				log.Println(*msg.Body)
 				err = json.Unmarshal([]byte(*msg.Body), &n)
 				if err != nil {

@@ -2,8 +2,8 @@ package repositories
 
 import (
 	"fmt"
+	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/db"
 	"log"
-	"modulo-escolar/src/core/db"
 	"modulo-escolar/src/domain/entities"
 	"strings"
 )

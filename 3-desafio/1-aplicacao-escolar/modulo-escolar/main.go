@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/config"
 	"log"
-	"modulo-escolar/src/core/config"
 	"modulo-escolar/src/core/router"
 	"net/http"
 )

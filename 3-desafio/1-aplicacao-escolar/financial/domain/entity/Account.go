@@ -6,9 +6,10 @@ import (
 )
 
 type Account struct {
-	ID        uuid.UUID
-	CreatedAt time.Time
-	ClientID  string
-	CourseID  string
-	Total     float32
+	ID           uuid.UUID
+	ClientID     string
+	CourseID     string
+	Installments uint8
+	Total        float32
+	CreatedAt    time.Time
 }

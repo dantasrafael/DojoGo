@@ -2,8 +2,7 @@ package db
 
 import (
 	"database/sql"
-	"modulo-escolar/src/core/config"
-
+	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/config"
 	_ "github.com/lib/pq"
 )
 
