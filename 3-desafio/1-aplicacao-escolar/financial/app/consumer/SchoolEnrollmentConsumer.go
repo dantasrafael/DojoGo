@@ -26,6 +26,7 @@ func StartSchoolEnrollmentConsumer(sess *session.Session) {
 			enrollment, ok := msg.Message.(*model.Enrollment)
 			if !ok {
 				log.Printf("ERROR: could not parse message: \n%v", msg)
+				continue
 			}
 			account := &entity.Account{
 				ClientID:     enrollment.StudentID,
@@ -33,7 +34,8 @@ func StartSchoolEnrollmentConsumer(sess *session.Session) {
 				Installments: enrollment.Installments,
 				Total:        enrollment.Total,
 			}
-			err := uc.Execute(context.Background(), account)
+			ctx := context.WithValue(context.Background(), "origin", "school-enrollment-consumer")
+			err := uc.Execute(ctx, account)
 			if err != nil {
 				log.Printf("ERROR: could not consume message: \n%v: \n%v", msg, err)
 			}
