@@ -2,10 +2,11 @@ package repositories
 
 import (
 	"fmt"
-	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/db"
 	"log"
 	"modulo-escolar/src/domain/entities"
 	"strings"
+
+	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/db"
 )
 
 const (
@@ -14,8 +15,9 @@ const (
 		JOIN students s ON e.student_id = s.id
 		JOIN courses c ON e.course_id = c.id
 		WHERE 1=1 AND ($1 = '' OR (LOWER(s.name) LIKE $1)) AND ($2 = '' OR (LOWER(c.name) LIKE $2))`
-	INSERT_ENROLLMENT = `INSERT INTO enrollments(student_id, course_id, installments, status) VALUES($1, $2, $3, $4) RETURNING id, created_at`
-	DELETE_ENROLLMENT = `DELETE FROM enrollments WHERE id=$1`
+	INSERT_ENROLLMENT        = `INSERT INTO enrollments(student_id, course_id, installments, status) VALUES($1, $2, $3, $4) RETURNING id, created_at`
+	UPDATE_ENROLLMENT_STATUS = `UPDATE enrollments SET status = %1 WHERE id = $2`
+	DELETE_ENROLLMENT        = `DELETE FROM enrollments WHERE id=$1`
 )
 
 func FindAllEnrollments(studentName, courseName *string) ([]entities.Enrollment, error) {
@@ -83,6 +85,26 @@ func DeleteEnrollment(id *uint64) error {
 	defer stmt.Close()
 
 	if _, err = stmt.Exec(id); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func UpdateEnrollmentStatus(id *uint64, status *entities.EnrollmentStatus) error {
+	db, err := db.Connect()
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	stmt, errStt := db.Prepare(UPDATE_ENROLLMENT_STATUS)
+	if errStt != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	if _, err = stmt.Exec(id, status); err != nil {
 		return err
 	}
 
