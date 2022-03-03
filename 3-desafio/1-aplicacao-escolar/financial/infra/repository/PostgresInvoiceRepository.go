@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	insertInvoice = "INSERT INTO account (account_id, installment, due_date, value) VALUES ( $1, $2, $3, $4)"
+	insertInvoice = "INSERT INTO invoice (account_id, installment, due_date, value) VALUES ( $1, $2, $3, $4)"
 )
 
 type PostgresInvoiceRepository struct {
@@ -21,9 +21,9 @@ func NewPostgresInvoiceRepository(db *sql.DB) repository.InvoiceRepository {
 }
 
 func (p PostgresInvoiceRepository) Save(ctx context.Context, invoice *entity.Invoice) error {
-	err := p.db.QueryRowContext(ctx, insertInvoice, invoice.Account.ID, invoice.Installment, invoice.DueDate, invoice.Value)
-	if err != nil {
-		return fmt.Errorf("could not save invoice with account[%s]: %v", invoice.Account.ID, err)
+	row := p.db.QueryRowContext(ctx, insertInvoice, invoice.Account.ID, invoice.Installment, invoice.DueDate, invoice.Value)
+	if row.Err() != nil {
+		return fmt.Errorf("could not save invoice with account[%s]: %v", invoice.Account.ID, row.Err())
 	}
 	return nil
 }

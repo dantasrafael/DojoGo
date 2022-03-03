@@ -16,7 +16,7 @@ const (
 		JOIN courses c ON e.course_id = c.id
 		WHERE 1=1 AND ($1 = '' OR (LOWER(s.name) LIKE $1)) AND ($2 = '' OR (LOWER(c.name) LIKE $2))`
 	INSERT_ENROLLMENT        = `INSERT INTO enrollments(student_id, course_id, installments, status) VALUES($1, $2, $3, $4) RETURNING id, created_at`
-	UPDATE_ENROLLMENT_STATUS = `UPDATE enrollments SET status = %1 WHERE id = $2`
+	UPDATE_ENROLLMENT_STATUS = `UPDATE enrollments SET status = $2 WHERE id = $1`
 	DELETE_ENROLLMENT        = `DELETE FROM enrollments WHERE id=$1`
 )
 

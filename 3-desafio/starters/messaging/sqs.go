@@ -10,6 +10,11 @@ import (
 	"github.com/aws/aws-sdk-go/service/sqs"
 )
 
+type sqsNotification struct {
+	MessageId string `json:"MessageId"`
+	Message   string `json:"Message"`
+}
+
 func CreateConsumer(sess *session.Session, queueName string) chan *ProviderMessage {
 	ch := make(chan *ProviderMessage, 1)
 
@@ -29,14 +34,17 @@ func CreateConsumer(sess *session.Session, queueName string) chan *ProviderMessa
 			}
 			if len(msgs.Messages) > 0 {
 				msg := msgs.Messages[0]
-				var n ProviderMessage
-				log.Println(*msg.Body)
-
+				var n sqsNotification
 				err = json.Unmarshal([]byte(*msg.Body), &n)
 				if err != nil {
 					log.Printf("Could not unmarshal message body [%s]: %v\n", *msg.Body, err)
+				}
+				var pm ProviderMessage
+				err = json.Unmarshal(([]byte(n.Message)), &pm)
+				if err != nil {
+					log.Printf("Could not unmarshal message body [%s]: %v\n", *msg.Body, err)
 				} else {
-					ch <- &n
+					ch <- &pm
 					removeMessageFromQueue(svc, queueResult, msg)
 				}
 			} else {

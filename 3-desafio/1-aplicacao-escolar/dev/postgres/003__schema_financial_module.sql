@@ -5,6 +5,7 @@ CREATE TABLE account
     id           uuid PRIMARY KEY   DEFAULT gen_random_uuid(),
     client_id    varchar   NOT NULL,
     course_id    varchar   NOT NULL,
+    external_id  varchar   NOT NULL,
     installments INT2      NOT NULL,
     total        decimal   NOT NULL,
     status       varchar   not null,

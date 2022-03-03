@@ -26,7 +26,7 @@ func NewRegisterAccount(db *sql.DB) *RegisterAccount {
 }
 
 func (uc RegisterAccount) Execute(ctx context.Context, account *entity.Account) error {
-	account.Status = "ADIMPLENTE"
+	account.Status = entity.ADIMPLENTE
 	accountId, err := uc.accountRepository.Save(ctx, account)
 
 	if err != nil {
@@ -47,7 +47,7 @@ func (uc RegisterAccount) Execute(ctx context.Context, account *entity.Account) 
 }
 
 func (uc RegisterAccount) splitInvoices(account *entity.Account) []entity.Invoice {
-	invoiceValue := account.Total / float32(account.Installments)
+	invoiceValue := account.Total / float64(account.Installments)
 	invoices := make([]entity.Invoice, 0, account.Installments)
 	for idx := 0; idx < int(account.Installments); idx++ {
 		monthToAdd := idx + 1

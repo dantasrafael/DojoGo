@@ -1,11 +1,24 @@
 package model
 
-import uuid "github.com/satori/go.uuid"
+import (
+	"financial/domain/entity"
+	"time"
+)
 
 type Enrollment struct {
-	ID           uuid.UUID
-	StudentID    string  `json:"student_id"`
-	CourseID     string  `json:"course_id"`
-	Installments uint8   `json:"installments"`
-	Total        float32 `json:"total"`
+	ID           uint64                  `json:"id"`
+	Student      Student                 `json:"student"`
+	Course       Course                  `json:"course"`
+	Installments uint8                   `json:"installments"`
+	Status       entity.EnrollmentStatus `json:"status"`
+	CreatedAt    time.Time               `json:"createdAt"`
+}
+
+type Student struct {
+	ID uint64 `json:"id"`
+}
+
+type Course struct {
+	ID    uint64  `json:"id"`
+	Value float64 `json:"value"`
 }

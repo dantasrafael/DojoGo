@@ -9,8 +9,9 @@ type Account struct {
 	ID           uuid.UUID
 	ClientID     string
 	CourseID     string
+	ExternalID   string
 	Installments uint8
-	Total        float32
-	Status       string // ADIMPLENTE, INADIMPLENTE
+	Total        float64
+	Status       EnrollmentStatus
 	CreatedAt    time.Time
 }

@@ -12,5 +12,5 @@ type Invoice struct {
 	CreatedAt   time.Time
 	PaidAt      time.Time
 	DueDate     time.Time
-	Value       float32
+	Value       float64
 }

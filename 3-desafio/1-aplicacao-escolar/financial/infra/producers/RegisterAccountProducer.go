@@ -4,9 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"financial/domain/entity"
+	"financial/infra/producers/model"
 	"github.com/aws/aws-sdk-go/service/sns"
 	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/messaging"
 	"log"
+	"strconv"
 )
 
 const (
@@ -21,18 +23,18 @@ func NewRegisterAccountProducer() RegisterAccountProducer {
 	return RegisterAccountProducer{}
 }
 
-func (p RegisterAccountProducer) Send(ctx context.Context, account *entity.Account) {
-
-	message, err := json.Marshal(account)
+func (p RegisterAccountProducer) Send(_ context.Context, account *entity.Account) {
+	externalID, _ := strconv.ParseUint(account.ExternalID, 10, 64)
+	m, err := json.Marshal(model.RegisterAccountNotification{ID: externalID, Status: entity.INADIMPLENTE})
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	message := messaging.ProviderMessage{Action: actionRegisterAccount, Message: string(message)}
+	message := messaging.ProviderMessage{Action: actionRegisterAccount, Message: string(m)}
 	sess := messaging.CreateLocalstackSession()
 	svc := sns.New(sess)
 
-	err := messaging.PublishMessage(svc, topicRegisterAccount, message.GetJson())
+	err = messaging.PublishMessage(svc, topicRegisterAccount, message.GetJson())
 	if err != nil {
 		log.Printf("ERROR: could not send message to topic %s: %v\n", topicRegisterAccount, err)
 	}

@@ -8,6 +8,7 @@ import (
 	"financial/domain/entity"
 	"financial/domain/usecase"
 	"log"
+	"strconv"
 
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/messaging"
@@ -30,10 +31,11 @@ func StartSchoolEnrollmentConsumer(sess *session.Session, db *sql.DB) {
 					continue
 				}
 				account := &entity.Account{
-					ClientID:     e.StudentID,
-					CourseID:     e.CourseID,
+					ClientID:     strconv.FormatUint(e.Student.ID, 10),
+					CourseID:     strconv.FormatUint(e.Course.ID, 10),
+					ExternalID:   strconv.FormatUint(e.ID, 10),
 					Installments: e.Installments,
-					Total:        e.Total,
+					Total:        e.Course.Value,
 				}
 				ctx := context.WithValue(context.Background(), "origin", "school-enrollment-consumer")
 				log.Printf("starting message processing...\n%v\n", account)

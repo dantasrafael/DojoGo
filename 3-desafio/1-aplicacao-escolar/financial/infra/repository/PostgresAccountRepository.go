@@ -11,7 +11,7 @@ import (
 
 const (
 	selectAccountByClientAndCourse = "SELECT id, client_id, course_id, installments, total, created_at FROM account WHERE client_id = $1 AND course_id = $2 "
-	insertAccount                  = "INSERT INTO account (client_id, course_id, installments, total) VALUES ( $1, $2, $3, $4) RETURNING id"
+	insertAccount                  = "INSERT INTO account (client_id, course_id, installments, total, status, external_id) VALUES ( $1, $2, $3, $4, $5, $6) RETURNING id"
 )
 
 type PostgresAccountRepository struct {
@@ -34,7 +34,7 @@ func (p PostgresAccountRepository) FindByClientIdAndCourseId(ctx context.Context
 
 func (p PostgresAccountRepository) Save(ctx context.Context, account *entity.Account) (*uuid.UUID, error) {
 	var idStr string
-	err := p.db.QueryRowContext(ctx, insertAccount, account.ClientID, account.CourseID, account.Installments, account.Total).
+	err := p.db.QueryRowContext(ctx, insertAccount, account.ClientID, account.CourseID, account.Installments, account.Total, account.Status, account.ExternalID).
 		Scan(&idStr)
 	if err != nil {
 		return nil, fmt.Errorf("could not save account with client[%s] and course[%s]: %v", account.ClientID, account.CourseID, err)
