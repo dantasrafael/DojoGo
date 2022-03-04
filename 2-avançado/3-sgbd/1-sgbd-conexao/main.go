@@ -24,5 +24,6 @@ func main() {
 		panic(err)
 	}
 	defer db.Close()
+	// ...
 
 }

@@ -78,7 +78,7 @@ func readMessages(svc *sqs.SQS, queueResult *sqs.GetQueueUrlOutput) (*sqs.Receiv
 	msgs, err := svc.ReceiveMessage(&sqs.ReceiveMessageInput{
 		QueueUrl:              queueResult.QueueUrl,
 		MaxNumberOfMessages:   aws.Int64(1),
-		WaitTimeSeconds:       aws.Int64(1),
+		WaitTimeSeconds:       aws.Int64(10),
 		MessageAttributeNames: aws.StringSlice([]string{"All"}),
 	})
 	return msgs, err

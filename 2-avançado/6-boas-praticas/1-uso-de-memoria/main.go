@@ -7,8 +7,8 @@ import (
 
 type Pessoa struct {
 	Nome  string // 16 bytes
-	Nick  string // 16 bytes
 	Idade uint8  // 1 byte
+	Nick  string // 16 bytes
 } // 33 bytes??? | 8 * 5 = 40 bytes
 
 func main() {
@@ -25,8 +25,8 @@ func main() {
 	arrayFloat32 := [2]float32{2.5, 1000.50}
 	arrayTexto := [2]string{"", "Olá"}
 	arrayEstrutura := [2]Pessoa{
-		{"Pedro", "Pedrinho", 10},
-		{"Tiago", "Titi", 5},
+		{"Pedro", 10, "Pedrinho"},
+		{"Tiago", 5, "Titi"},
 	}
 
 	sliceVazioBool := []bool{}
@@ -42,8 +42,8 @@ func main() {
 	sliceFloat32 := []float32{2.5, 1000.50}
 	sliceTexto := []string{"", "Olá"}
 	sliceEstrutura := []Pessoa{
-		{"Pedro", "Pedrinho", 10},
-		{"Tiago", "Titi", 5},
+		{"Pedro", 10, "Pedrinho"},
+		{"Tiago", 5, "Titi"},
 	}
 
 	fmt.Println("#### USO DE MÉMORIA (byte = bits / 8) ####")

@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+	"regexp"
+)
 
 func recuperarExecucao() {
 	fmt.Println("Tentando recuperar a execução!")
@@ -9,15 +13,15 @@ func recuperarExecucao() {
 	}
 }
 
-func alunoEstaAprovado(n1, n2 float32) bool {
+func alunoEstaAprovado(n1, n2 float32) (bool, error) {
 	defer recuperarExecucao()
 
 	media := (n1 + n2) / 2
 
 	if media > 6 {
-		return true
+		return true, nil
 	} else if media < 6 {
-		return false
+		return false, nil
 	}
 
 	//return false
@@ -25,6 +29,15 @@ func alunoEstaAprovado(n1, n2 float32) bool {
 }
 
 func main() {
-	fmt.Println(alunoEstaAprovado(6, 6))
+	result, err := alunoEstaAprovado(6, 6)
+	if err != nil {
+		log.Println(err)
+	}
+	fmt.Println(result)
 	fmt.Println("Pós execução")
+
+	r, err := regexp.Compile("")
+	fmt.Println(err)
+	r = regexp.MustCompile(`^https?: `)
+	fmt.Println(r)
 }

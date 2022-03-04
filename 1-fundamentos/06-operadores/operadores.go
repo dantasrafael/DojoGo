@@ -6,7 +6,7 @@ func main() {
 	// ARITMETICOS (+ - / * %)
 	soma := 1 + 2
 	subtracao := 1 - 2
-	divisao := 10 / 4
+	divisao := 10.0 / 4
 	multiplicacao := 10 * 5
 	restoDaDivisao := 10 % 2
 	fmt.Println(soma, subtracao, divisao, multiplicacao, restoDaDivisao)

@@ -43,25 +43,6 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 
-	// stmt, errStt := db.Prepare(`INSERT INTO users(name, email) VALUES($1, $2) RETURNING id`)
-	// if errStt != nil {
-	// 	fmt.Println(errStt.Error())
-	// 	w.Write([]byte("Ocorreu um erro ao criar o statement"))
-	// 	return
-	// }
-	// defer stmt.Close()
-
-	// res, errExec := stmt.Exec(userStruct.Name, userStruct.Email)
-	// if errExec != nil {
-	// 	fmt.Println(errExec.Error())
-	// 	w.Write([]byte("Ocorreu um erro ao executar o statement"))
-	// 	return
-	// }
-
-	// fmt.Println("Res:", res)
-	// fmt.Println(res.LastInsertId()) // Não suportado por este driver
-	// fmt.Println(res.RowsAffected())
-
 	var userId int
 	errQuery := db.QueryRow(`INSERT INTO users(name, email) VALUES($1, $2) RETURNING id`, userStruct.Name, userStruct.Email).Scan(&userId)
 	if errQuery != nil {
