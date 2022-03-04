@@ -1,6 +1,8 @@
 package model
 
-import "financial/domain/entity"
+import (
+	"financial/src/domain/entity"
+)
 
 type RegisterAccountNotification struct {
 	ID     uint64                  `json:"id"`

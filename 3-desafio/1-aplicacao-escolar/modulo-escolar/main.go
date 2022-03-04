@@ -23,6 +23,7 @@ func init() {
 }
 
 func main() {
+	log.Println("Iniciando módulo escolar")
 	sess := messaging.CreateLocalstackSession()
 	consumers.StartFinantialInstallmentConsumer(sess)
 

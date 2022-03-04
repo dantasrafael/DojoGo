@@ -1,7 +1,7 @@
 package model
 
 import (
-	"financial/domain/entity"
+	"financial/src/domain/entity"
 	"time"
 )
 

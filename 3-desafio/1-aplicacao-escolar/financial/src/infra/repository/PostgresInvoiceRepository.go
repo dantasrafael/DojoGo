@@ -3,8 +3,8 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"financial/domain/entity"
-	"financial/domain/repository"
+	"financial/src/domain/entity"
+	"financial/src/domain/repository"
 	"fmt"
 )
 

@@ -3,8 +3,8 @@ package producers
 import (
 	"context"
 	"encoding/json"
-	"financial/domain/entity"
-	"financial/infra/producers/model"
+	"financial/src/domain/entity"
+	"financial/src/infra/producers/model"
 	"github.com/aws/aws-sdk-go/service/sns"
 	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/messaging"
 	"log"

@@ -32,6 +32,44 @@ services:
     networks:
       - dev
 
+  modulo-escolar:
+    image: modulo-escolar:latest
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: dojo_modulo_escolar
+      BACKEND_PORT: 8080
+      LOCALSTACK_HOST: localstack
+    depends_on:
+      - localstack
+      - postgres
+    networks:
+      - dev
+
+  financial:
+    image: financial:latest
+    ports:
+      - "8081:8080"
+    restart: unless-stopped
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: dojo_modulo_financeiro
+      BACKEND_PORT: 8080
+      LOCALSTACK_HOST: localstack
+    depends_on:
+      - localstack
+      - postgres
+    networks:
+      - dev
+
 networks:
   dev:
 

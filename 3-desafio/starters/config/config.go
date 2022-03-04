@@ -12,6 +12,7 @@ import (
 var (
 	DBConnectionURI = ""
 	BackendPort     = 0
+	LocalStackHost  = "localhost"
 )
 
 func Load() {
@@ -32,4 +33,6 @@ func Load() {
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("DB_NAME"))
+
+	LocalStackHost = os.Getenv("LOCALSTACK_HOST")
 }

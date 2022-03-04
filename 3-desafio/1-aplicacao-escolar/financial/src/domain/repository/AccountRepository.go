@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"financial/domain/entity"
+	"financial/src/domain/entity"
 	"github.com/satori/go.uuid"
 )
 

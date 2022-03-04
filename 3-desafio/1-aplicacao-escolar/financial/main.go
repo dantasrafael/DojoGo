@@ -1,8 +1,8 @@
 package main
 
 import (
-	"financial/app/consumer"
-	"financial/app/controller"
+	"financial/src/app/consumer"
+	"financial/src/app/controller"
 	"fmt"
 	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/config"
 	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/db"
@@ -13,6 +13,7 @@ import (
 )
 
 func main() {
+	log.Println("Iniciando módulo financeiro")
 	config.Load()
 
 	router := mux.NewRouter()

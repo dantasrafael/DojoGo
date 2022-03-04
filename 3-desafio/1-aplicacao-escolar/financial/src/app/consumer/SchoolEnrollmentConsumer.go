@@ -4,9 +4,9 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
-	"financial/app/consumer/model"
-	"financial/domain/entity"
-	"financial/domain/usecase"
+	"financial/src/app/consumer/model"
+	"financial/src/domain/entity"
+	"financial/src/domain/usecase"
 	"log"
 	"strconv"
 
