@@ -7,6 +7,7 @@ import (
 
 type forma interface {
 	area() float64
+	teste() string
 }
 
 func escreverArea(f forma) {
@@ -15,7 +16,6 @@ func escreverArea(f forma) {
 
 type retangulo struct {
 	altura  float64
-	largura float64
 }
 
 type circulo struct {
