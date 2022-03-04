@@ -12,7 +12,7 @@ CREATE TABLE employee
 CREATE TABLE payroll
 (
     id          SERIAL4   NOT NULL,
-    employee_id VARCHAR   NOT NULL,
+    employee_id integer   NOT NULL,
     reference   TIMESTAMP NOT NULL,
     salary_base decimal   not null,
     discount    decimal   not null,
