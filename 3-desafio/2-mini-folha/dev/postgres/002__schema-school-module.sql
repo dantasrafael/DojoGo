@@ -1,23 +1,21 @@
 \connect dojo_modulo_folha;
 
-CREATE TABLE employee
+CREATE TABLE colaborador
 (
-    id          SERIAL4 NOT NULL,
-    name        VARCHAR NOT NULL,
-    external_id varchar not null,
-    salary      DECIMAL NOT NULL,
-    CONSTRAINT employee_pk PRIMARY KEY (id)
+    id          integer NOT NULL,
+    nome        VARCHAR NOT NULL,
+    salario      DECIMAL NOT NULL,
+    CONSTRAINT colaborador_pk PRIMARY KEY (id)
 );
 
-CREATE TABLE payroll
+CREATE TABLE folha
 (
-    id          SERIAL4   NOT NULL,
-    employee_id integer   NOT NULL,
-    reference   TIMESTAMP NOT NULL,
-    salary_base decimal   not null,
-    discount    decimal   not null,
-    total       decimal   not null,
-    created_at  TIMESTAMP NOT NULL DEFAULT NOW(),
-    CONSTRAINT payroll_pk PRIMARY KEY (id),
-    CONSTRAINT payroll_employee_fk FOREIGN KEY (employee_id) REFERENCES employee (id) ON DELETE CASCADE ON UPDATE CASCADE
+    id          serial4   NOT NULL,
+    colaborador_id integer   NOT NULL,
+    colaborador_nome varchar   NOT NULL,
+    colaborador_salario numeric(19,2) NOT NULL,
+    inss    numeric(19,2)   not null,
+    irpf    numeric(19,2)   not null,
+    total       numeric(19,2)   not null,
+    CONSTRAINT folha_pk PRIMARY KEY (id)
 );

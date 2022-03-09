@@ -1,34 +1,44 @@
 package main
 
 import (
-	"folha/src/app/consumer"
-	"folha/src/app/controller"
 	"fmt"
-	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/config"
-	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/db"
-	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/messaging"
-	"github.com/gorilla/mux"
 	"log"
+	"modulo-folha/src/consumers"
+	"modulo-folha/src/controllers"
 	"net/http"
+
+	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/config"
+	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/messaging"
+	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/router"
+	"github.com/dantasrafael/DojoGo/tree/master/3-desafio/starters/router/routes"
 )
 
-func main() {
-	log.Println("Starting module mini-folha")
+var AppRoutes = []routes.Route{
+	{
+		URI:      "/schedule",
+		Method:   "POST",
+		Function: controllers.CalcularFolha,
+	},
+	{
+		URI:      "/folhas",
+		Method:   "GET",
+		Function: controllers.ListarFolhas,
+	},
+}
+
+func init() {
 	config.Load()
-	
-	conn, err := db.Connect()
-	if err != nil {
-		log.Fatalf("Could not create database connection: %v", err)
-	}
+	routes.AddRoutes(AppRoutes)
+}
 
-	router := mux.NewRouter()
-	router.HandleFunc("/employees", controller.EmployeeFindAll).Methods(http.MethodGet)
-	router.HandleFunc("/employees/{id}", controller.EmployeeFindById).Methods(http.MethodGet)
+func main() {
+	fmt.Println("Iniciando o modulo de folha...")
 
-	sess := messaging.CreateLocalstackSession()
-	consumer.StartSchoolEnrollmentConsumer(sess, conn)
+	ses := messaging.CreateLocalstackSession()
+	consumers.IniciarColaboradorConsumer(ses)
 
-	port := config.BackendPort
-	log.Println("Application available on port", port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), router))
+	appRouter := router.Create()
+
+	fmt.Printf("Rodando o modulo folha na porta %d", config.BackendPort)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.BackendPort), appRouter))
 }
