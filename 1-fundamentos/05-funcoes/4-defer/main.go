@@ -11,7 +11,7 @@ func function2() {
 }
 
 func isApprovedStudent(n1, n2 float32) bool {
-	defer fmt.Printf("### Returning average")
+	defer fmt.Printf("### Returning average = ")
 	fmt.Println("### Calculating approved student")
 
 	average := (n1 + n2) / 2

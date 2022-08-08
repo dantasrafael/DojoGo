@@ -7,7 +7,7 @@ import (
 type Regioes int
 
 const (
-	Norte = iota
+	Norte Regioes = iota
 	Sul
 	Leste
 	Oeste
